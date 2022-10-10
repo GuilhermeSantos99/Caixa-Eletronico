@@ -1,10 +1,8 @@
 #include <iostream>
 #include "funcs.hpp"
 
-int main(){
-  
-   double saldo = 0;
-
+int main()
+{
    run();
 
    return 0;
