@@ -106,24 +106,28 @@ void selectSaldo()
    sqlite3* DB;
    int exit = 0;
    exit = sqlite3_open("dbATM.db", &DB);
-   std::string data("CALLBACK FUNCTION");
+   std::string data("");
 
    std::string sql("SELECT * FROM money;");
-   if (exit) {
-      std::cerr << "Erro ao abrir bando de dados " << sqlite3_errmsg(DB) << std::endl;
+   if (!exit) {
+      std::cout << "Banco de dados aberto com sucesso!" << std::endl;
    }
    else
-      std::cout << "Banco de dados aberto com sucesso!" << std::endl;
+   {
+      std::cerr << "Erro ao abrir bando de dados " << sqlite3_errmsg(DB) << std::endl;
+   }
 
    int rc = sqlite3_exec(DB, sql.c_str(), callback, (void*)data.c_str(), NULL);
 
-   std::cout << "Saldo: " << saldo << '\n';
+   std::cout << "Saldo: R$" << saldo << '\n';
 
 
-   if (rc != SQLITE_OK)
-      std::cerr << "Erro ao buscar informações do banco de dados" << std::endl;
-   else {
+   if (!(rc != SQLITE_OK))
+   {
       std::cout << "Operation OK!" << std::endl;
+   }
+   else {
+      std::cerr << "Erro ao buscar informações do banco de dados" << std::endl;
    }
 
    sqlite3_close(DB);
