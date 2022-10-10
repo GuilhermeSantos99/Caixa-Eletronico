@@ -1,9 +1,11 @@
 #include <iostream>
 #include "funcs.hpp"
 
+
+
 int main()
 {
-   selectSaldo();
+   run();
 
    return 0;
 }
