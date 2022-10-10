@@ -20,6 +20,9 @@ static int callback(void *data, int argc, char **argv, char **azColName)
 
 void updateDB(double novoSaldo)
 {
+
+
+
    sqlite3 *DB;
    int exit = 0;
    const char* data("CALLBACK FUNCTION");
@@ -29,11 +32,11 @@ void updateDB(double novoSaldo)
    exit = sqlite3_open("dbATM.db", &DB);
 
    if (exit) {
-      std::cerr << "Erro ao abrir DB" << sqlite3_errmsg(DB) << std::endl;
+      std::cerr << "Erro ao abrir DB" << sqlite3_errmsg(DB) << '\n';
    } 
    else
    {
-      std::cout << "Database aberto com sucesso" << std::endl;
+      std::cout << "Database aberto com sucesso" << '\n';
    }
 
    // Instrução SQL
@@ -47,10 +50,10 @@ void updateDB(double novoSaldo)
    // Executar comando SQL
    exit = sqlite3_exec(DB, sqlUpdate, callback, (void *) data, &messaggeError);
    if ( exit != SQLITE_OK ) {
-      std::cerr << "Não foi possível atualizar valores. " << sqlite3_errmsg(DB) << std::endl;
+      std::cerr << "Não foi possível atualizar valores. " << sqlite3_errmsg(DB) << '\n';
    } else
    {
-      std::cout << "Operação realizada com sucesso" << std::endl;
+      std::cout << "Operação realizada com sucesso" << '\n';
    }
    
    sqlite3_close(DB);
@@ -63,11 +66,11 @@ void criaDB()
 	exit = sqlite3_open("dbATM.db", &DB);
 
 	if (exit) {
-		std::cerr << "Error open DB " << sqlite3_errmsg(DB) << std::endl;
+		std::cerr << "Error open DB " << sqlite3_errmsg(DB) << '\n';
 	}
 	else
    {
-		std::cout << "Opened Database Successfully!" << std::endl;
+		std::cout << "Opened Database Successfully!" << '\n';
    }
 	sqlite3_close(DB);
 }
@@ -103,27 +106,21 @@ void selectSaldo()
    std::string data("");
 
    std::string sql("SELECT * FROM money;");
-   if (!exit) {
-      std::cout << "Banco de dados aberto com sucesso!" << std::endl;
+   if (exit) {
+      std::cerr << "Erro ao abrir bando de dados " << sqlite3_errmsg(DB) << '\n';
    }
    else
    {
-      std::cerr << "Erro ao abrir bando de dados " << sqlite3_errmsg(DB) << std::endl;
+      std::cerr << "Erro ao abrir bando de dados " << sqlite3_errmsg(DB) << '\n';
    }
 
    int rc = sqlite3_exec(DB, sql.c_str(), callback, (void*)data.c_str(), NULL);
 
    convertSaldo();
 
-   std::cout << "Saldo: R$" << *pSaldo << '\n';
-
-
-   if (!(rc != SQLITE_OK))
+   if (rc != SQLITE_OK)
    {
-      std::cout << "Operation OK!" << std::endl;
-   }
-   else {
-      std::cerr << "Erro ao buscar informações do banco de dados" << std::endl;
+      std::cerr << "Erro ao buscar informações do banco de dados" << '\n';
    }
 
    sqlite3_close(DB);
