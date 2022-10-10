@@ -11,4 +11,12 @@ void makeDeposit();
 
 void withdraw();
 
+// Funções relacionadas ao banco de dados
+
+void criaDB();
+
+void criaTabela();
+
+void updateDB();
+
 #endif // FUNCS_HPP_INCLUDED
