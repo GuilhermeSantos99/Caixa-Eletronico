@@ -16,6 +16,42 @@ static int callback(void *data, int argc, char **argv, char **azColName)
   return 0;
 }
 
+void updateDB()
+{
+   sqlite3 *DB;
+   int exit = 0;
+   const char* data("CALLBACK FUNCTION");
+   char *messaggeError = 0;
+
+   // Abertura do banco de dados
+   exit = sqlite3_open("dbATM.db", &DB);
+
+   if (exit) {
+      std::cerr << "Erro ao abrir DB" << sqlite3_errmsg(DB) << std::endl;
+   } 
+   else
+   {
+      std::cout << "Database aberto com sucesso" << std::endl;
+   }
+
+   // Instrução SQL
+   double novoSaldo;
+   const char* sqlUpdate = "UPDATE money"
+                           "SET saldo = 1.0"
+                           "WHERE id = 1";
+
+   // Executar comando SQL
+   exit = sqlite3_exec(DB, sqlUpdate, callback, (void *) data, &messaggeError);
+   if ( exit != SQLITE_OK ) {
+      std::cerr << "Não foi possível atualizar valores. " << sqlite3_errmsg(DB) << std::endl;
+   } else
+   {
+      std::cout << "Operação realizada com sucesso" << std::endl;
+   }
+   
+sqlite3_close(DB);
+}
+
 void criaDB()
 {
    sqlite3* DB;
