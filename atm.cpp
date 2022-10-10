@@ -2,6 +2,9 @@
 #include <iostream>
 #include <stdlib.h>
 #include <sqlite3.h>
+#include <cstddef>
+#include <cstdio>
+
 
 static int callback(void *data, int argc, char **argv, char **azColName)
 {
@@ -49,7 +52,7 @@ void updateDB()
       std::cout << "Operação realizada com sucesso" << std::endl;
    }
    
-sqlite3_close(DB);
+   sqlite3_close(DB);
 }
 
 void criaDB()
@@ -107,7 +110,6 @@ void showMenu()
 void showSaldo()
 {
 	std::cout << "Saldo" << '\n';
-   printf("Saldo\n");
 }
 
 void makeDeposit()
