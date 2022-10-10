@@ -20,6 +20,8 @@ void criaTabela();
 
 void updateDB(double novoSaldo);
 
+// Funções relacionadas às operações com os valores
+
 void selectSaldo();
 
 void convertSaldo();

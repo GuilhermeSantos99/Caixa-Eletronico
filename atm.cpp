@@ -8,7 +8,7 @@
 #include <string>
 
 std::string saldoStr;
-std::unique_ptr<double>pSaldo(new double);
+std::unique_ptr<double>pSaldo(new double );
 
 static int callback(void *data, int argc, char **argv, char **azColName)
 {
@@ -18,11 +18,8 @@ static int callback(void *data, int argc, char **argv, char **azColName)
   return 0;
 }
 
-void updateDB(double novoSaldo)
+void updateDB( double novoSaldo ) // Finalizada
 {
-
-
-
    sqlite3 *DB;
    int exit = 0;
    const char* data("CALLBACK FUNCTION");
@@ -33,10 +30,6 @@ void updateDB(double novoSaldo)
 
    if (exit) {
       std::cerr << "Erro ao abrir DB" << sqlite3_errmsg(DB) << '\n';
-   } 
-   else
-   {
-      std::cout << "Database aberto com sucesso" << '\n';
    }
 
    // Instrução SQL
@@ -49,17 +42,15 @@ void updateDB(double novoSaldo)
 
    // Executar comando SQL
    exit = sqlite3_exec(DB, sqlUpdate, callback, (void *) data, &messaggeError);
-   if ( exit != SQLITE_OK ) {
-      std::cerr << "Não foi possível atualizar valores. " << sqlite3_errmsg(DB) << '\n';
-   } else
+   if ( exit != SQLITE_OK )
    {
-      std::cout << "Operação realizada com sucesso" << '\n';
+      std::cerr << "Não foi possível atualizar valores. " << sqlite3_errmsg(DB) << '\n';
    }
    
    sqlite3_close(DB);
 }
 
-void criaDB()
+void criaDB() // Finalizada
 {
    sqlite3* DB;
 	int exit = 0;
@@ -75,7 +66,7 @@ void criaDB()
 	sqlite3_close(DB);
 }
 
-void criaTabela()
+void criaTabela() // Finalizada
 {
    sqlite3* DB;
    std::string sql = "CREATE TABLE money ("
@@ -98,11 +89,11 @@ void criaTabela()
    sqlite3_close(DB);
 }
 
-void selectSaldo()
+void selectSaldo() // Finalizada
 {
    sqlite3* DB;
    int exit = 0;
-   exit = sqlite3_open("dbATM.db", &DB);
+   exit = sqlite3_open( "dbATM.db", &DB );
    std::string data("");
 
    std::string sql("SELECT * FROM money;");
@@ -114,7 +105,7 @@ void selectSaldo()
 
    convertSaldo();
 
-   if (rc != SQLITE_OK)
+   if ( rc != SQLITE_OK )
    {
       std::cerr << "Erro ao buscar informações do banco de dados" << '\n';
    }
@@ -122,12 +113,12 @@ void selectSaldo()
    sqlite3_close(DB);
 }
 
-void convertSaldo()
+void convertSaldo() // Finalizada
 {
    *pSaldo = std::stod(saldoStr);
 }
 
-void showMenu()
+void showMenu() // Finalizada
 {
    std::cout << "+------------------------+" << '\n'; 
    std::cout << "|    Caixa eletrônico    |" << '\n';
@@ -140,32 +131,52 @@ void showMenu()
    std::cout << ">";
 }
 
-void showSaldo()
+void showSaldo() // Finalizada
 {
    selectSaldo();
    std::cout << "Saldo: R$ " << *pSaldo << '\n';
 }
 
-void makeDeposit()
+void makeDeposit() // Finalizada
 {
 	double deposito;
 
    selectSaldo();
 
-   std::cout << "Digite o valor do depósito: R$ " << '\n';
+   std::cout << "Digite o valor do depósito: R$ ";
    std::cin >> deposito;
 
    double valorAtual = *pSaldo + deposito;
    updateDB(valorAtual);
    selectSaldo();
 
-   std::cout << "Novo saldo: R$ " << *pSaldo << '\n';
+   std::cout << "\nNovo saldo: R$ " << *pSaldo << '\n';
 
 }
 
 void withdraw()
 {
-	std::cout << "Sacar" << '\n';
+	double withdraw;
+   
+   selectSaldo();
+
+   std::cout << "Digite o valor do saque: R$ ";
+   std::cin >> withdraw;
+
+   double valorAtual = *pSaldo - withdraw;
+
+   if (valorAtual <= 0)
+   {
+      std::cout << "\nNão foi possível realizar a operação" << '\n';
+      std::cout << "Saldo insificiênte!" << '\n';
+   }
+   else
+   {
+      updateDB(valorAtual);
+      selectSaldo();
+
+      std::cout << "Novo saldo R$ " << *pSaldo << '\n';
+   }
 }
 
 void run()
