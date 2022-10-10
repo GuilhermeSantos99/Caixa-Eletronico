@@ -8,7 +8,7 @@
 #include <string>
 
 std::string saldoStr;
-std::shared_ptr<double>pSaldo(new double);
+std::unique_ptr<double>pSaldo(new double);
 
 static int callback(void *data, int argc, char **argv, char **azColName)
 {
