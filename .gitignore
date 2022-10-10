@@ -31,3 +31,6 @@
 *.out
 *.app
 atm
+
+# Test files
+Teste/
