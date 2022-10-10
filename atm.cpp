@@ -143,8 +143,7 @@ void showMenu()
 void showSaldo()
 {
    selectSaldo();
-   std::cout << "R$ " << *pSaldo << '\n';
-   showMenu();
+   std::cout << "Saldo: R$ " << *pSaldo << '\n';
 }
 
 void makeDeposit()
@@ -168,15 +167,24 @@ void run()
 
       if(option == 1)
       {
+         system("clear");
+         std::cout << '\n';
          showSaldo();
+         std::cout << '\n';
       }
       else if(option == 2)
       {
-	     makeDeposit();
+	     system("clear");
+        std::cout << '\n';
+        makeDeposit();
+        std::cout << '\n';
       }
       else if(option == 3)
       {
-	     withdraw();
+	     system("clear");
+        std::cout << '\n';
+        withdraw();
+        std::cout << '\n';
       }
       else if(option == 4)
       {
