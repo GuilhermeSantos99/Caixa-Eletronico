@@ -19,6 +19,29 @@ void criaDB()
 	sqlite3_close(DB);
 }
 
+void criaTabela()
+{
+   sqlite3* DB;
+   std::string sql = "CREATE TABLE money ("
+                      "id    INTEGER PRIMARY KEY AUTOINCREMENT"
+                      "            NOT NULL,"
+                      "saldo REAL  NOT NULL"
+                      ");";
+
+   int exit = 0;
+   exit = sqlite3_open("dbATM.db", &DB);
+   char *messaggeError;
+   exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messaggeError);
+
+   if ( exit != SQLITE_OK ){
+      std::cerr << "Erro ao criar tabela" << '\n';
+   }
+   else {
+      std::cout << "Tabela criada com sucesso" << '\n';
+   }
+   sqlite3_close(DB);
+}
+
 void showMenu()
 {
    std::cout << "+------------------------+" << '\n'; 
