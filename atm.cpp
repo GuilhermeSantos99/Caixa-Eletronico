@@ -109,10 +109,6 @@ void selectSaldo()
    if (exit) {
       std::cerr << "Erro ao abrir bando de dados " << sqlite3_errmsg(DB) << '\n';
    }
-   else
-   {
-      std::cerr << "Erro ao abrir bando de dados " << sqlite3_errmsg(DB) << '\n';
-   }
 
    int rc = sqlite3_exec(DB, sql.c_str(), callback, (void*)data.c_str(), NULL);
 
@@ -136,7 +132,7 @@ void showMenu()
    std::cout << "+------------------------+" << '\n'; 
    std::cout << "|    Caixa eletrônico    |" << '\n';
    std::cout << "|------------------------|" << '\n';
-   std::cout << "| 1. Chegar saldo        |" << '\n';
+   std::cout << "| 1. Consultar saldo     |" << '\n';
    std::cout << "| 2. Depositar           |" << '\n';
    std::cout << "| 3. Sacar               |" << '\n';
 	std::cout << "| 4. Sair                |" << '\n';
@@ -146,7 +142,9 @@ void showMenu()
 
 void showSaldo()
 {
-	std::cout << "Saldo" << '\n';
+   selectSaldo();
+   std::cout << "R$ " << *pSaldo << '\n';
+   showMenu();
 }
 
 void makeDeposit()
@@ -170,18 +168,15 @@ void run()
 
       if(option == 1)
       {
-         //system("clear");
-         void showSaldo();
+         showSaldo();
       }
       else if(option == 2)
       {
-	     void makeDeposit();
-         //system("clear");
+	     makeDeposit();
       }
       else if(option == 3)
       {
-	     void withdraw();
-         //system("clear");
+	     withdraw();
       }
       else if(option == 4)
       {
