@@ -1,17 +1,20 @@
 # Nome do projeto
-PROJ_NAME=atm
+PROJ_NAME = atm
 
 # Arquivos .cpp
-CPP_SOURCE=$(wildcard *.cpp)
+CPP_SOURCE = $(wildcard *.cpp)
 
 # Arquivos .hpp
-HPP_SOURCE=$(wildcard *.hpp)
+HPP_SOURCE = $(wildcard *.hpp)
 
 # Arquivos .o (Object files)
-OBJ=$(CPP_SOURCE:.c=.o)
+OBJ = $(CPP_SOURCE:.cpp=.o)
 
 # Nome do compilador
-CC=g++
+CC = g++
+
+# Bibliotecas
+LIBS = -lsqlite3
 
 # Flags para o compilador
 CC_FLAGS=-c         \
@@ -20,13 +23,16 @@ CC_FLAGS=-c         \
          -ansi      \
          -pedantic	
 
+# Bibliotecas
+LIBS = -lsqlite3
+
 #
 # Compilação e linking
 #
 all: $(PROJ_NAME)
 
 $(PROJ_NAME): $(OBJ)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ $(LIBS)
 
 %.o: %.cpp %.hpp
 	$(CC) -o $@ $< $(CC_FLAGS)
