@@ -1,6 +1,7 @@
 #ifndef FUNCS_HPP_INCLUDED
 #define FUNCS_HPP_INCLUDED
 
+
 void run();
 
 void showMenu();
@@ -20,6 +21,8 @@ void criaTabela();
 void updateDB(double novoSaldo);
 
 void selectSaldo();
+
+void convertSaldo();
 
 typedef int (*sqlite3_callback)(
    void*,    /* Dados fornecidos no 4º argumento do sqlite3_exec() */
