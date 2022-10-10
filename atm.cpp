@@ -1,26 +1,20 @@
 #include "funcs.hpp"
 #include <iostream>
+#include <memory>
 #include <stdlib.h>
 #include <sqlite3.h>
 #include <cstddef>
 #include <cstdio>
 #include <string>
 
-std::string saldo;
+std::string saldoStr;
+std::shared_ptr<double>pSaldo(new double);
 
 static int callback(void *data, int argc, char **argv, char **azColName)
 {
-  size_t i;
-  fprintf(stderr, "%s: ", (const char *)data);
-/*
-  for (i = 0; i < argc; i++) {
-    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-  }
+  fprintf(stderr, "%s", (const char *)data);
 
-  printf("\n");
-*/
-  //printf("%s\n", argv[1]);
-  saldo = argv[1];
+  saldoStr = argv[1];
   return 0;
 }
 
@@ -119,7 +113,9 @@ void selectSaldo()
 
    int rc = sqlite3_exec(DB, sql.c_str(), callback, (void*)data.c_str(), NULL);
 
-   std::cout << "Saldo: R$" << saldo << '\n';
+   convertSaldo();
+
+   std::cout << "Saldo: R$" << *pSaldo << '\n';
 
 
    if (!(rc != SQLITE_OK))
@@ -131,6 +127,11 @@ void selectSaldo()
    }
 
    sqlite3_close(DB);
+}
+
+void convertSaldo()
+{
+   *pSaldo = std::stod(saldoStr);
 }
 
 void showMenu()
