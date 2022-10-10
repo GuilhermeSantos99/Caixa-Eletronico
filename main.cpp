@@ -3,7 +3,7 @@
 
 int main()
 {
-   run();
+   selectSaldo();
 
    return 0;
 }
