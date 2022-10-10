@@ -148,7 +148,19 @@ void showSaldo()
 
 void makeDeposit()
 {
-	std::cout << "Depositar" << '\n';
+	double deposito;
+
+   selectSaldo();
+
+   std::cout << "Digite o valor do depósito: R$ " << '\n';
+   std::cin >> deposito;
+
+   double valorAtual = *pSaldo + deposito;
+   updateDB(valorAtual);
+   selectSaldo();
+
+   std::cout << "Novo saldo: R$ " << *pSaldo << '\n';
+
 }
 
 void withdraw()
