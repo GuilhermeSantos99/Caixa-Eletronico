@@ -4,22 +4,27 @@
 #include <sqlite3.h>
 #include <cstddef>
 #include <cstdio>
+#include <string>
 
+std::string saldo;
 
 static int callback(void *data, int argc, char **argv, char **azColName)
 {
   size_t i;
   fprintf(stderr, "%s: ", (const char *)data);
-
+/*
   for (i = 0; i < argc; i++) {
     printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
   }
 
   printf("\n");
+*/
+  //printf("%s\n", argv[1]);
+  saldo = argv[1];
   return 0;
 }
 
-void updateDB()
+void updateDB(double novoSaldo)
 {
    sqlite3 *DB;
    int exit = 0;
@@ -38,10 +43,12 @@ void updateDB()
    }
 
    // Instrução SQL
-   double novoSaldo;
-   const char* sqlUpdate = "UPDATE money"
-                           "SET saldo = 1.0"
-                           "WHERE id = 1";
+   std::string saldoStr = std::to_string(novoSaldo);
+   std::string sqlUpdateStr = "";
+
+   sqlUpdateStr = "UPDATE money SET saldo = " + saldoStr + " WHERE id = 1";
+
+   const char *sqlUpdate = sqlUpdateStr.c_str();
 
    // Executar comando SQL
    exit = sqlite3_exec(DB, sqlUpdate, callback, (void *) data, &messaggeError);
@@ -59,7 +66,7 @@ void criaDB()
 {
    sqlite3* DB;
 	int exit = 0;
-	exit = sqlite3_open("example2.db", &DB);
+	exit = sqlite3_open("dbATM.db", &DB);
 
 	if (exit) {
 		std::cerr << "Error open DB " << sqlite3_errmsg(DB) << std::endl;
@@ -91,6 +98,34 @@ void criaTabela()
    else {
       std::cout << "Tabela criada com sucesso" << '\n';
    }
+   sqlite3_close(DB);
+}
+
+void selectSaldo()
+{
+   sqlite3* DB;
+   int exit = 0;
+   exit = sqlite3_open("dbATM.db", &DB);
+   std::string data("CALLBACK FUNCTION");
+
+   std::string sql("SELECT * FROM money;");
+   if (exit) {
+      std::cerr << "Erro ao abrir bando de dados " << sqlite3_errmsg(DB) << std::endl;
+   }
+   else
+      std::cout << "Banco de dados aberto com sucesso!" << std::endl;
+
+   int rc = sqlite3_exec(DB, sql.c_str(), callback, (void*)data.c_str(), NULL);
+
+   std::cout << "Saldo: " << saldo << '\n';
+
+
+   if (rc != SQLITE_OK)
+      std::cerr << "Erro ao buscar informações do banco de dados" << std::endl;
+   else {
+      std::cout << "Operation OK!" << std::endl;
+   }
+
    sqlite3_close(DB);
 }
 
