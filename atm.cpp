@@ -1,9 +1,26 @@
 #include "funcs.hpp"
 #include <iostream>
 #include <stdlib.h>
+#include <sqlite3.h>
 
-void showMenu(){
+void criaDB()
+{
+   sqlite3* DB;
+	int exit = 0;
+	exit = sqlite3_open("example2.db", &DB);
 
+	if (exit) {
+		std::cerr << "Error open DB " << sqlite3_errmsg(DB) << std::endl;
+	}
+	else
+   {
+		std::cout << "Opened Database Successfully!" << std::endl;
+   }
+	sqlite3_close(DB);
+}
+
+void showMenu()
+{
    std::cout << "+------------------------+" << '\n'; 
    std::cout << "|    Caixa eletrônico    |" << '\n';
    std::cout << "|------------------------|" << '\n';
@@ -18,6 +35,7 @@ void showMenu(){
 void showSaldo()
 {
 	std::cout << "Saldo" << '\n';
+   printf("Saldo\n");
 }
 
 void makeDeposit()
