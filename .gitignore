@@ -34,3 +34,7 @@ atm
 
 # Test files
 Teste/
+interface/
+
+# Text editor files
+.ccls-cache/
