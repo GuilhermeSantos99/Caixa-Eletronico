@@ -1,9 +1,8 @@
-#include <iostream>
 #include "funcs.hpp"
+#include <iostream>
 
-int main()
-{
-   run();
+int main() {
+  run();
 
-   return 0;
+  return 0;
 }

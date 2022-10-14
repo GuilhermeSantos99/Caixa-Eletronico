@@ -26,10 +26,10 @@ void selectSaldo();
 void convertSaldo();
 
 typedef int (*sqlite3_callback)(
-   void*,    /* Dados fornecidos no 4º argumento do sqlite3_exec() */
-   int,      /* The number of columns in row */
-   char**,   /* An array of strings representing fields in the row */
-   char**    /* An array of strings representing column names */
+    void *,  /* Dados fornecidos no 4º argumento do sqlite3_exec() */
+    int,     /* The number of columns in row */
+    char **, /* An array of strings representing fields in the row */
+    char **  /* An array of strings representing column names */
 );
 
 #endif // FUNCS_HPP_INCLUDED
